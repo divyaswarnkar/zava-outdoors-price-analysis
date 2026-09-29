@@ -13,8 +13,7 @@ The approval summary's format lives in SKILL.md, since it is the output that mat
     "run_id": "2026-09-28",
     "generated_at": "2026-09-28T06:41:12Z",
     "competitors_expected": 3,
-    "competitors_received": 3,
-    "previous_run_found": true
+    "competitors_received": 3
   },
   "recommendations": [
     {
@@ -30,8 +29,7 @@ The approval summary's format lives in SKILL.md, since it is the output that mat
       "price_position_pct": 11.4,
       "margin_now_pct": 59.0,
       "margin_after_pct": 54.3,
-      "rationale": "Basecamp cut to $35.00 overnight, leaving us the highest of three.",
-      "changed_since_yesterday": true
+      "rationale": "Basecamp is lowest at $35.00, leaving us the highest of three."
     }
   ],
   "near_misses": [
@@ -58,16 +56,6 @@ The approval summary's format lives in SKILL.md, since it is the output that mat
       "reasoning": "Both 400 lumen USB-C rechargeable headlamps.",
       "eligible": true,
       "exclusion_reason": null
-    }
-  ],
-  "changes_since_yesterday": [
-    {
-      "competitor": "Basecamp Supply Co.",
-      "listed_name": "Beam 400 Headlamp",
-      "previous_price": 39.00,
-      "current_price": 35.00,
-      "change_pct": -10.3,
-      "affects_sku": "ZO-HDL-400"
     }
   ],
   "no_match": [

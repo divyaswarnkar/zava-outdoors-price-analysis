@@ -20,7 +20,6 @@ The caller supplies these however it chooses to pass them:
 | Price snapshots | One per competitor, from today's extraction runs. Schema: `price-snapshot-schema.md` |
 | Catalogue | Products to price: sku, name, brand, model_number, match_type, cost, current price, margin floor |
 | Rules | Target price position, rounding, cap on a single change, exclusions. Policy: `pricing-rules.json` |
-| Yesterday's snapshots | For the day-over-day diff. Absent on the first run, which is normal |
 
 You never fetch a web page. If a competitor's snapshot is missing, note it and carry on
 with the rest.
@@ -61,12 +60,9 @@ than using it.
 **3. Apply the rules.** Lowest eligible price per catalogue item, price position, the
 recommended price under the rules, and margin at that price.
 
-**4. Diff against yesterday.** What moved, by how much, and whether it changes a
-recommendation. On the first run, say so once.
+**4. Write the outputs.** Three files — see "What you produce".
 
-**5. Write the outputs.** Three files — see "What you produce".
-
-**6. Validate.** Write `validate_run.py` alongside your outputs, checking the rules under
+**5. Validate.** Write `validate_run.py` alongside your outputs, checking the rules under
 "Validation" below. Run it, fix the **data** it flags — never the script, never the rule —
 and run again. Stop after three rounds and say plainly what is still failing.
 
@@ -159,7 +155,7 @@ Rules for it:
   needs their judgment. Never mix them.
 - **Every price change shows the margin effect.** A price without its margin consequence is
   not a decision.
-- **Name the competitor and the trigger.** "Basecamp cut to $35 overnight" beats "a
+- **Name the competitor and the price.** "Basecamp is lowest at $35" beats "a
   competitor is cheaper".
 - **No preamble.** Do not restate the task or explain what the pipeline is.
 - **Say when nothing happened.** A quiet day is a valid result and a short message.
@@ -174,12 +170,12 @@ Shape:
 
 | Product | Now | Recommend | Why | Margin |
 |---|---|---|---|---|
-| Lumen 400 Headlamp | $39.00 | $35.00 | Basecamp cut to $35 overnight, we're now highest | 59% → 54% |
+| Lumen 400 Headlamp | $39.00 | $35.00 | Basecamp lowest at $35, we're now highest | 59% → 54% |
 | Trailhead 2P Tent | $219.00 | $198.00 | Timberline clearance at $198, 10% below us | 46% → 40% |
 
 **Holding**
 
-- **Emberlite Stove** — Timberline dropped to $39.00. Matching would put us at ~$41,
+- **Emberlite Stove** — Timberline is at $39.00. Matching would put us at ~$41,
   below our floor. Holding at $59.00.
 
 **Needs your call**
