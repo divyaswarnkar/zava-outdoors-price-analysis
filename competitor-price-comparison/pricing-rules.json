@@ -1,0 +1,41 @@
+{
+  "version": "2026-09",
+  "exact_match": {
+    "definition": "Same manufacturer brand and model number, character for character.",
+    "target": "Match the lowest eligible exact-match price.",
+    "model_number_suffix": "A differing year or revision suffix is a near-miss, never a match."
+  },
+  "comparable_match": {
+    "definition": "Different product, similar specification and intended use.",
+    "target_within_pct": 5,
+    "target_note": "Recommend a price within 5% of the lowest eligible comparable price.",
+    "act_on_confidence": [
+      "high",
+      "medium"
+    ],
+    "low_confidence": "Status 'review' with no recommended price."
+  },
+  "constraints": {
+    "never_below": "margin_floor_price",
+    "max_change_per_run_pct": 15,
+    "min_change_to_act_pct": 2,
+    "min_change_note": "Below this, recommend hold — not worth a price change."
+  },
+  "rounding": {
+    "house_brand": "Round to the nearest whole dollar, ending .00",
+    "brand_name": "Keep .95 endings",
+    "rule": "Round in the direction that protects margin."
+  },
+  "exclusions": [
+    "out_of_stock",
+    "backordered",
+    "limited_availability",
+    "bundle_only",
+    "membership_gated"
+  ],
+  "price_field_preference": [
+    "sale_price",
+    "list_price"
+  ],
+  "price_field_note": "Never use member_price — it is not available to every shopper."
+}
