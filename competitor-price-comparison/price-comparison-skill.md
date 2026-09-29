@@ -29,8 +29,8 @@ Costs and margin floors are confidential. Use them; never write them into an out
 ## Environment setup
 
 Set the environment up before you start — the run writes `recommendations.json`,
-`approval-summary.md` and `price-comparison.xlsx`, plus the `validate_run.py` you author and
-execute.
+`approval-summary.md`, `approval-card.json` and `price-comparison.xlsx`, plus the
+`validate_run.py` you author and execute.
 
 - **Python 3.9+.** The matching, pricing maths and the JSON/Markdown outputs use only the
   standard library (`json`, `math`, `pathlib`, `re`, `datetime`) — no install needed.
@@ -45,9 +45,9 @@ execute.
   single line, `openpyxl`, and installing with `python -m pip install -r requirements.txt`.
 - No network access is required at this stage: you never fetch a page, and every input
   (snapshots, catalogue, rules) is a local file the caller supplies.
-- If `openpyxl` cannot be installed, still write `recommendations.json` and
-  `approval-summary.md`, and say in the summary that the spreadsheet could not be generated —
-  a named gap beats a missing file.
+- If `openpyxl` cannot be installed, still write `recommendations.json`,
+  `approval-summary.md` and `approval-card.json`, and say in the summary that the spreadsheet
+  could not be generated — a named gap beats a missing file.
 
 ## Workflow
 
@@ -60,7 +60,7 @@ than using it.
 **3. Apply the rules.** Lowest eligible price per catalogue item, price position, the
 recommended price under the rules, and margin at that price.
 
-**4. Write the outputs.** Three files — see "What you produce".
+**4. Write the outputs.** Four files — see "What you produce".
 
 **5. Validate.** Write `validate_run.py` alongside your outputs, checking the rules under
 "Validation" below. Run it, fix the **data** it flags — never the script, never the rule —
@@ -132,11 +132,12 @@ whether chasing it makes sense.
 
 ## What you produce
 
-Three files. The approval summary is the one a person actually reads.
+Four files. The approval summary is the one a person actually reads.
 
 | File | For |
 |---|---|
 | `approval-summary.md` | The reviewer. Posted to chat for approval |
+| `approval-card.json` | The same summary as a Teams Adaptive Card, with Approve/Reject buttons and a comment box. Layout: `output-spec.md` |
 | `recommendations.json` | The workflow. Schema: `output-spec.md` |
 | `price-comparison.xlsx` | The detail behind the summary. Layout: `output-spec.md` |
 
@@ -208,7 +209,7 @@ Write the script. Fix the data, not the rule.
 - **V8** No cost or margin-floor figure appears in any output.
 - **V9** The summary's counts match the recommendations. If it says two repricings, there
   are two.
-- **V10** All three outputs exist and are non-empty.
+- **V10** All four outputs exist and are non-empty.
 
 **Warnings** — report, and mention in the summary when they fire:
 

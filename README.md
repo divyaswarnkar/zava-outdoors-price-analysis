@@ -27,8 +27,9 @@ All four files live in a single folder; the skill links to the other three by fi
 3. **Apply the rules** in `pricing-rules.json` — lowest eligible price, target position, the
    cap on a single change, exclusions, rounding — never below the margin floor.
 4. **Validate** with a script the run writes and executes (blocking checks V1–V10).
-5. **Produce** three outputs: `approval-summary.md` (the one a reviewer reads),
-   `recommendations.json`, and `price-comparison.xlsx`.
+5. **Produce** four outputs: `approval-summary.md` (the one a reviewer reads),
+   `approval-card.json` (the same summary as a Teams Adaptive Card with Approve/Reject and a
+   comment box), `recommendations.json`, and `price-comparison.xlsx`.
 
 ## Inputs the caller supplies at run time
 

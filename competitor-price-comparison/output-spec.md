@@ -110,3 +110,53 @@ number anywhere in the workbook traces to a row here.
 
 Formatting: currency format on money columns, percentage format on percentages, column
 widths set so nothing truncates, wrap text on rationale columns.
+
+## approval-card.json
+
+A Microsoft Teams **Adaptive Card** (schema version 1.4) carrying the same content as
+`approval-summary.md`, so the summary can be posted to Teams and approved in place. The
+caller sends this JSON as the `content` of an attachment whose `contentType` is
+`application/vnd.microsoft.card.adaptive`.
+
+Same confidentiality rule as every output: **no `unit_cost` or `margin_floor_price`** appears
+in the card (V8). Margin percentages are fine.
+
+Structure:
+
+- **`body`** mirrors the summary: a bold title `TextBlock` with the date, a subtle count
+  line, then a bold section header and one wrapped `TextBlock` per line item, in the same
+  order as the summary (recommend → holding → needs your call). Drop empty sections. Every
+  `TextBlock` sets `"wrap": true`. Keep it under the summary's 300-word discipline; if it
+  would run long, summarise and say the full workings are in the spreadsheet.
+- A single multiline comment box: `Input.Text` with `"id": "comments"`. Its typed value is
+  returned in the submit payload.
+- **`actions`** are two `Action.Submit`: **Approve** (`"style": "positive"`) and **Reject**
+  (`"style": "destructive"`). Each carries `data` with the chosen `action` and the `run_id`
+  so the receiver knows which run it is approving. The comment box value is included
+  automatically alongside `data` on submit.
+
+Example:
+
+```json
+{
+  "type": "AdaptiveCard",
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.4",
+  "body": [
+    { "type": "TextBlock", "text": "Daily price check — 29 Sep", "weight": "Bolder", "size": "Medium", "wrap": true },
+    { "type": "TextBlock", "text": "2 to reprice · 1 holding · 1 needs your call", "isSubtle": true, "spacing": "None", "wrap": true },
+    { "type": "TextBlock", "text": "Recommend repricing", "weight": "Bolder", "wrap": true },
+    { "type": "TextBlock", "text": "Lumen 400 Headlamp  $39.00 → $35.00  — Basecamp lowest at $35, we're now highest (59% → 54%)", "wrap": true },
+    { "type": "TextBlock", "text": "Holding", "weight": "Bolder", "wrap": true },
+    { "type": "TextBlock", "text": "Emberlite Camp Stove  — Timberline is lowest at $47.00; the 15% cap limits this run to $51.00. Recommend $51.00.", "wrap": true },
+    { "type": "Input.Text", "id": "comments", "label": "Comments", "placeholder": "Add a note for the record (optional)", "isMultiline": true }
+  ],
+  "actions": [
+    { "type": "Action.Submit", "title": "Approve", "style": "positive", "data": { "action": "approve", "run_id": "2026-09-29" } },
+    { "type": "Action.Submit", "title": "Reject", "style": "destructive", "data": { "action": "reject", "run_id": "2026-09-29" } }
+  ]
+}
+```
+
+On submit, the flow or bot receives, for example,
+`{ "action": "approve", "run_id": "2026-09-29", "comments": "Fine except the tent — hold that one" }`.
